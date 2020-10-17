@@ -25,11 +25,7 @@ public class Game_State : MonoBehaviour
     {
         if (G_state == 0)
         {
-            time += Time.deltaTime;
-            if(time>3)
-            {
-                G_state = 1;
-            }
+            G_state = 1;
         }
         else if (G_state == 1)
         {

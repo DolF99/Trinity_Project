@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{222EFB0F-480E-70D4-A0B1-C2C87DBEEF97}</ProjectGuid>
+    <ProjectGuid>{E6883039-E21C-B2E0-7D71-B7862DE24627}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -62,7 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Camera.cs" />
+    <Compile Include="Assets\Script\CameraMove.cs" />
+    <Compile Include="Assets\Script\Card\Card.cs" />
+    <Compile Include="Assets\Script\Card\DeckDB.cs" />
+    <Compile Include="Assets\Script\Card\GetMousClickPosi.cs" />
+    <Compile Include="Assets\Script\Card\Hands.cs" />
+    <Compile Include="Assets\Script\Card\HandsBack.cs" />
+    <Compile Include="Assets\Script\Card\Hands_Ctrl.cs" />
     <Compile Include="Assets\Script\Game_State.cs" />
     <Compile Include="Assets\Script\Map\CreateMap.cs" />
     <Compile Include="Assets\Script\Map\MapObj.cs" />
@@ -598,31 +604,31 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.14f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>E:/유니티_프로젝트/졸업작품/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>E:/github/Trinity_Project/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
