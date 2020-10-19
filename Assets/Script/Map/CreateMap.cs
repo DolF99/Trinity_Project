@@ -21,11 +21,16 @@ static class Map_Type
     public const int Plain = 13; //평지
     public const int V_Castle = 14; //마을 - 성
     public const int V_Blacksmith = 15; //마을 - 대장간
-    public const int V_Shop = 16; // 마을 - 상점
+    public const int V_House = 16; // 마을 - 민간인의 집
     public const int V_Chapel = 17; // 마을 - 예배당
     public const int V_Arcademy = 18; // 마을 - 학원
     public const int V_Inn = 19; //마을 - 여관
     public const int V_Plain = 20; // 마을 - 평지
+    public const int Volcano = 21; // 산 - 화산
+    public const int Dungeon2 = 22; // 던전2
+    public const int V_Plain2 = 23; // 마을 - 평지2
+    public const int Plain_Volcano = 24; // 평지2 - 화산
+    public const int Plain2 = 25; // 평지3
 }
 
 public class CreateMap : MonoBehaviour
@@ -52,6 +57,8 @@ public class CreateMap : MonoBehaviour
     bool isCreate = false;
 
     public bool isStart = false;
+
+    bool isCreateInn = false;
 
     //만들어질 맵 배열
     public int[,] Map;
@@ -114,7 +121,7 @@ public class CreateMap : MonoBehaviour
         //빈타일 ,숲 , 호수 , 산 , 예배당 , 산적 소굴 , 학원 , 마을 , 사냥꾼 , 던전 , 차원의 틈 , 유적 , 엔딩 , 평지
         if (Danger == 1)
         {
-            Min_Create = new int[] { 0, 10, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };
+            Min_Create = new int[] { 0, 10, 3, 3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0 };
             Max_Create = new int[] { 0, 50, 18, 18, 8, 3, 10, 2, 0, 0, 0, 0, 0, 58 };
             // 마을 -  성 ,대장간 ,상점 ,예배당 ,학원, 여관 (14~ 19 )
             Village_Create = new int[] { 0, 0, 0, 0, 0 ,0};
@@ -129,20 +136,22 @@ public class CreateMap : MonoBehaviour
         }
         else if (Danger == 3)
         {
-            Min_Create = new int[] { 0, 15, 2, 2, 1, 3, 1, 1, 4, 1, 2, 0, 0, 0 };
-            Max_Create = new int[] { 0, 55, 10, 10, 5, 15, 3, 2, 20, 7, 3, 1, 0, 47 };
+            Min_Create = new int[] { 0, 15, 2, 2, 1, 3, 1, 1, 4, 1, 0, 0, 0, 0 };
+            Max_Create = new int[] { 0, 55, 10, 10, 5, 15, 3, 2, 20, 7, 0, 1, 0, 47 };
             Village_Create = new int[] { 0, 0, 0, 0, 0, 0};
             Set_Village_Create = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         }
         else if (Danger == 4)
         {
-            Min_Create = new int[] { 0, 0, 1, 1, 1, 1, 0, 0, 1, 4, 1, 0, 0, 0 };
-            Max_Create = new int[] { 0, 32, 5, 5, 2, 5, 2, 0, 5, 20, 5, 2, 0, 0 };
+            Min_Create = new int[] { 0, 0, 1, 1, 1, 1, 0, 0, 1, 4, 0, 0, 0, 1 };
+            Max_Create = new int[] { 0, 32, 5, 5, 2, 5, 2, 1, 5, 20, 0, 2, 0, 5 };
+            Village_Create = new int[] { 0, 0, 0, 0, 0, 0 };
+            Set_Village_Create = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         }
         else if (Danger == 5)
         {
-            Min_Create = new int[] { 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
-            Max_Create = new int[] { 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
+            Min_Create = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 };
+            Max_Create = new int[] { 0, 20, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3 };
         }
     }
 
@@ -154,25 +163,39 @@ public class CreateMap : MonoBehaviour
 
         if (rand < 7)
         {
-            Min_Create[Map_Type.Village] = 2;
-            // 마을은 7개의 타을을 하나로 묶어 생성하기때문에 2개 마을 = 14 타일
-            create_cnt += 14;
+            if (Danger <= 3)
+            {
+                Min_Create[Map_Type.Village] = 2;
+                // 마을은 7개의 타을을 하나로 묶어 생성하기때문에 2개 마을 = 14 타일
+                create_cnt += 14;
+            }
+            else if (Danger == 4)
+            {
+                Min_Create[Map_Type.Village] = 1;
+                create_cnt += 7;
+            }
         }
-        else
+        else if (rand >= 7 && Danger <= 3)
+        {
             Min_Create[Map_Type.Village] = 1;
-        create_cnt += 7;
+            create_cnt += 7;
+        }
 
     }
 
     // 마을 타일 지형 지정
     void Set_Village_Type()
     {
-        int rand_inn=Random.Range(0,7);
-        int t=0;
 
-        //여관
-        Set_Village_Create[rand_inn] = Map_Type.V_Inn;
+        if (!isCreateInn)
+        {
+            int rand_inn = Random.Range(0, 7);
+            //여관
+            Set_Village_Create[rand_inn] = Map_Type.V_Inn;
+            isCreateInn = true;
+        }
 
+        int t = 0;
         for (int i = 0; i < 7; i++)
         {
             int rand_type;
@@ -188,18 +211,19 @@ public class CreateMap : MonoBehaviour
                 //대장간
                 else if (rand_type >= 8 && rand_type < 23)
                     t = 1;
-                //상점
-                else if (rand_type >= 23 && rand_type < 28)
+                //민간인의 집
+                else if (rand_type >= 23 && rand_type < 33)
                     t = 2;
                 //예배당
-                else if (rand_type >= 28 && rand_type < 38)
+                else if (rand_type >= 33 && rand_type < 43)
                     t = 3;
                 //학원
-                else if (rand_type >= 38 && rand_type < 48)
+                else if (rand_type >= 43 && rand_type < 53)
                     t = 4;
                 else
                 {
                     t = 5;
+                    if (Set_Village_Create[i] == 0) 
                     Set_Village_Create[i] = Map_Type.V_Plain;
                     isCreate = true;
                 }
@@ -220,7 +244,7 @@ public class CreateMap : MonoBehaviour
 
     // 확률에따라 지형 개수 지정
     // 위험도별 최대 생성 개수 + 개별 확률 1% = 100 으로 계산
-    void RandomCreate(int max, int Fo, int La, int Mo, int Ch, int Ca, int Ar, int Vi, int Hu, int Du, int Di, int Ru, int Pl)
+    void RandomCreate(int max, int Fo, int La, int Mo, int Ch, int Ca, int Ar, int Vi, int Hu, int Du, int Ru, int Pl)
     {
         int rand;
 
@@ -263,17 +287,13 @@ public class CreateMap : MonoBehaviour
             else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du)
                 AddCreateNum(Map_Type.Dungeon, 1);
 
-            // 차원의 틈
-            else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du + Di)
-                AddCreateNum(Map_Type.Dimension, 1);
-
             // 유적
-            else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du + Di && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du + Di + Ru)
+            else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du  && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du  + Ru)
                 AddCreateNum(Map_Type.Ruins, 1);
 
 
             // 평지
-            else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du + Di + Ru && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du + Di + Ru + Pl)
+            else if (rand >= Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du  + Ru && rand < Fo + La + Mo + Ch + Ca + Ar + Vi + Hu + Du  + Ru + Pl)
                 AddCreateNum(Map_Type.Plain, 1);
 
         }
@@ -299,27 +319,29 @@ public class CreateMap : MonoBehaviour
             Change_Min_Max();
             
             // 위험도 3단계 이하 일경우 마을 존재
-            if (Danger <= 3)
+            if (Danger <= 4)
                 Set_Village_Num();
 
             if (Danger == 1)
-                RandomCreate(84, 3000, 1000, 1000, 500, 200, 800, 70, 0, 0, 0, 0, 3430);
+                RandomCreate(84, 3000, 1000, 1000, 500, 200, 800, 70, 0, 0, 0, 3430);
 
             if (Danger == 2)
-                RandomCreate(105, 3000, 1000, 1000, 500, 800, 400, 70, 1000, 400, 0, 0, 1830);
+                RandomCreate(105, 3000, 1000, 1000, 500, 800, 400, 70, 1000, 0, 0, 2230);
 
             if (Danger == 3)
-                RandomCreate(84, 4000, 500, 500, 400, 1000, 200, 70, 1200, 500, 200, 2, 0);
+                RandomCreate(84, 4500, 500, 500, 400, 1000, 200, 70, 1200, 200, 10, 1420);
 
             if (Danger == 4)
-                RandomCreate(42, 6090, 200, 200, 100, 400, 10, 0, 500, 2000, 500, 10, 0);
+                RandomCreate(42, 7400, 400, 200, 100, 400, 10, 70, 500, 500, 20, 400);
 
-            //5단계는 계산할 필요 X
+            if (Danger == 5)
+                RandomCreate(20, 8200, 400, 1000, 0, 0, 0, 0, 0, 0, 0, 400);
 
             ChangeTile();
             Set();
             create_cnt = 0;
             Danger++;
+            isCreateInn = false;
         }
     }
 
@@ -390,25 +412,7 @@ public class CreateMap : MonoBehaviour
                     while (!isSet)
                     {
                         int rand;
-                        if (Danger == 5)
-                        {
-                            rand = Random.Range(0, 20);
 
-                            if (rand == 19&& Now_Create[Map_Type.End] < Min_Create[Map_Type.End])
-                            {
-                                Map[i, j] = Map_Type.End;
-                                Now_Create[Map_Type.End]++;
-                                isSet = true;
-                            }
-                            else if(rand<19&&Now_Create[Map_Type.Forest]<Min_Create[Map_Type.Forest]) 
-                            {
-                                Map[i, j] = Map_Type.Forest;
-                                Now_Create[Map_Type.Forest]++;
-                                isSet = true;
-                            }
-                        }
-                        else
-                        {
                             rand = Random.Range(1, 14);
 
                             if (rand != Map_Type.Village &&
@@ -419,7 +423,7 @@ public class CreateMap : MonoBehaviour
 
                                 isSet = true;
                             }
-                        }
+                        //}
                     }
                 
                 }
@@ -437,18 +441,95 @@ public class CreateMap : MonoBehaviour
 
     void Spawn_Map()
     {
-        for(int i=0;i<MaxRow;i++)
+        for (int i = 0; i < MaxRow; i++)
         {
             for (int j = 0; j < MaxCol; j++)
             {
-                if (i % 2 == 0 && Map[i, j] > 0)
+                if (Map[i, j] == Map_Type.Mountain)
                 {
-                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((45 * j) , 0, -40 * i +1), Quaternion.Euler(0, 90, 0));
+                    int a = Random.Range(0, 2);
+                    if (a == 0)
+                        Map[i, j] = Map_Type.Volcano;
                 }
-                if (i % 2 == 1 && Map[i, j]>0)
-                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((45 * j) - 22, 0, -40 * i+1), Quaternion.Euler(0, 90, 0));
+
+                if (Map[i, j] == Map_Type.Dungeon)
+                {
+                    int a = Random.Range(0, 2);
+                    if (a == 0)
+                    {
+                        Map[i, j] = Map_Type.Dungeon2;
+                    }
+                }
+
+                if (Map[i, j] == Map_Type.V_Plain)
+                {
+                    int a = Random.Range(0, 2);
+                    if (a == 0)
+                    {
+                        Map[i, j] = Map_Type.V_Plain2;
+                    }
+                }
+
+                if (i % 2 == 0 && Map[i, j] > 0&&Map[i,j]!=Map_Type.Plain)
+                {
+                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((41 * j), 0, -35f * i), Quaternion.identity);
+                }
+                if (i % 2 == 1 && Map[i, j] > 0 && Map[i, j] != Map_Type.Plain)
+                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((41 * j) - 20, 0, -35f * i), Quaternion.identity);
             }
         }
-       
+
+        for (int i = 0; i < MaxRow; i++)
+        {
+            for (int j = 0; j < MaxCol; j++)
+            {
+                if (i % 2 == 0 && Map[i, j] == Map_Type.Plain)
+                {
+                    if (Map[i, j + 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i, j - 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i - 1, j] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i - 1, j + 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i + 1, j] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i + 1, j + 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else
+                    {
+                        int a = Random.Range(0, 2);
+                        if(a==0)
+                            Map[i, j] = Map_Type.Plain2;
+                    }
+
+                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((41 * j), 0, -35 * i), Quaternion.identity);
+                }
+                else if (i % 2 == 1 && Map[i, j] == Map_Type.Plain)
+                {
+                    if (Map[i, j + 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i, j - 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i - 1, j - 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i - 1, j] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i + 1, j - 1] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else if (Map[i + 1, j] == Map_Type.Volcano)
+                        Map[i, j] = Map_Type.Plain_Volcano;
+                    else
+                    {
+                        int a = Random.Range(0, 2);
+                        if (a == 0)
+                            Map[i, j] = Map_Type.Plain2;
+                    }
+
+                    Instantiate(Map_Obj[Map[i, j] - 1], new Vector3((41 * j) - 20, 0, -35 * i), Quaternion.identity);
+                }
+            }
+        }
     }
 }

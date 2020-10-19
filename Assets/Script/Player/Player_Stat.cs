@@ -63,7 +63,10 @@ static class P_First_Stat
             {
                 for (int j = 0; j < Map.MaxRow; j++)
                 {
-                    if (Map.Map[j, i] == Map_Type.Plain&&isSetPos==false)
+                    if ((Map.Map[j, i] == Map_Type.Plain||
+                        Map.Map[j,i]==Map_Type.Plain2||
+                        Map.Map[j,i]==Map_Type.Plain_Volcano)
+                        &&isSetPos==false)
                     {
                         P_R = j;
                         P_C = i;
@@ -78,11 +81,11 @@ static class P_First_Stat
     {
         if(P_R%2==0)
         {
-            Instantiate(Player_Obj, new Vector3((45 * P_C), 10, -40 * P_R+1), Quaternion.identity);
+            Instantiate(Player_Obj, new Vector3((41 * P_C), 10, -35 * P_R), Quaternion.identity);
         }
         else if(P_R%2==1)
         {
-            Instantiate(Player_Obj, new Vector3((45 * P_C)-22, 10, -40 * P_R+1), Quaternion.identity);
+            Instantiate(Player_Obj, new Vector3((41 * P_C)-20, 10, -35 * P_R), Quaternion.identity);
         }
     }
 }

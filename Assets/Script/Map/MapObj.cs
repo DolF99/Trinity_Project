@@ -21,6 +21,7 @@ public class MapObj : MonoBehaviour
 
     void OnMouseDown()
     {
+        Debug.Log("클릭");
         if (P_Move.isMove == false)
         {
             SetPos();
@@ -32,15 +33,15 @@ public class MapObj : MonoBehaviour
         P_Move.MoveC = transform.position.x;
         P_Move.MoveR = transform.position.z;
 
-        if(P_Move.MoveC%45==0)
+        if(P_Move.MoveC%41==0)
         {
-            M_R = (P_Move.MoveR-1) / (-40);
-            M_C = (P_Move.MoveC) / 45;
+            M_R = (P_Move.MoveR) / (-35);
+            M_C = (P_Move.MoveC) / 41;
         }
-        else
+        else 
         {
-            M_R = (P_Move.MoveR - 1) / (-40);
-            M_C = (P_Move.MoveC+22) / 45;
+            M_R = (P_Move.MoveR ) / (-35);
+            M_C = (P_Move.MoveC+20) / 41;
         }
 
         float r, c;
@@ -62,7 +63,7 @@ public class MapObj : MonoBehaviour
             }
         }
 
-        else if (P_Stat.P_R%2==1)
+        else 
         {
             if ((r == 0 && c == 1) ||
                (r == 0 && c == -1) ||
