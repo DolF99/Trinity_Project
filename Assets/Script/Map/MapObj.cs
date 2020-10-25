@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MapObj : MonoBehaviour
 {
@@ -21,11 +22,14 @@ public class MapObj : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("클릭");
-        if (P_Move.isMove == false)
-        {
-            SetPos();
-        }
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("클릭");
+                if (P_Move.isMove == false)
+                {
+                    SetPos();
+                }
+            }
     }
 
     void SetPos()

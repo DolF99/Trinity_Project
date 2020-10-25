@@ -75,6 +75,7 @@
     <Compile Include="Assets\Script\Map\SetMapArr.cs" />
     <Compile Include="Assets\Script\Player\Player_Move.cs" />
     <Compile Include="Assets\Script\Player\Player_Stat.cs" />
+    <Compile Include="Assets\Script\Player\Status.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
