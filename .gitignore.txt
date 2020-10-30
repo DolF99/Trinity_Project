@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # =============== #
  
 # Unity generated #
@@ -143,3 +144,76 @@ ProjectSettings.asset
  
 ProjectVersion.txt
 >>>>>>> 010486e20b810872b6446bbd6d84cea1069522b1
+=======
+# =============== #
+ 
+# Unity generated #
+ 
+# =============== #
+ 
+Temp/
+ 
+Obj/
+ 
+UnityGenerated/
+ 
+Library/
+ 
+ 
+ 
+# ===================================== #
+ 
+# Visual Studio / MonoDevelop generated #
+ 
+# ===================================== #
+ 
+ExportedObj/
+ 
+*.svd
+ 
+*.userprefs
+ 
+*.csproj
+ 
+*.pidb
+ 
+*.suo
+ 
+*.sln
+ 
+*.user
+ 
+*.unityproj
+ 
+*.booproj
+ 
+ 
+ 
+# ============ #
+ 
+# OS generated #
+ 
+# ============ #
+ 
+.DS_Store
+ 
+.DS_Store?
+ 
+._*
+ 
+.Spotlight-V100
+ 
+.Trashes
+ 
+Icon?
+ 
+ehthumbs.db
+ 
+Thumbs.db
+ 
+GraphicsSettings.asset
+ 
+ProjectSettings.asset
+ 
+ProjectVersion.txt
+>>>>>>> origin/메인_캐선
