@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-    public SetMapArr Map;
-    
+    SetMapArr Map;
+    Game_State GM;
     //public GameObject Monster_Model;
     public Monster[] Mon;    
     public Vector3[] MonPosArr;
@@ -28,26 +28,30 @@ public class MonsterManager : MonoBehaviour
 
     void Awake()
     {
+        GM = GameObject.Find("Game_Manager").GetComponent<Game_State>();
         MaxMonster = D1_Monster_max + D2_Monster_max + D3_Monster_max + D4_Monster_max + D5_Monster_max;
-        
         Mon = new Monster[MaxMonster];
+        Map = GameObject.Find("MapCreator").GetComponent<SetMapArr>();
         for (int i = 0; i < MaxMonster; i++)
         {
             Mon[i] = GameObject.Find("Monster_Manager").GetComponent<Monster>();
         }
+
         MonPosArr = new Vector3[MaxMonster];
-        
     }
 
-    void LateUpdate()
+    public void Update()
     {
-        if (cnt)
+        if (GM.G_state == 3)
         {
-            Debug.Log("Update");
-            
-            Set_Monster();
-            Spawn_Monster();
-            cnt = false;
+            if (cnt)
+            {
+                Debug.Log("Update");
+
+                Set_Monster();
+                Spawn_Monster();
+                cnt = false;
+            }
         }
     }
     void Set_Monster()
@@ -59,7 +63,7 @@ public class MonsterManager : MonoBehaviour
             {
                 if (PosCnt != MaxMonster)
                 {
-                    if (Map.DangerArr[j, i] == 0)
+                    if (Map.DangerArr[j, i] == 1)
                     {
                         if (D1_Monster_cnt == D1_Monster_max)
                             break;
