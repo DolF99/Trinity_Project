@@ -37,18 +37,20 @@ public class CreateMap : MonoBehaviour
 {
     MapObj map_obj;
     Game_State G_State;
-    SetMapArr SetMap;
+    public SetMapArr SetMap;
     public Transform[] Map_Obj;
 
     //맵 크기 받아올 변수
     public int MaxRow;
     public int MaxCol;
 
+    //생성중인 맵의 위험도 저장하는 변수
+    public int Danger = 1;
+
     //지형 개수
     int MaxType = 15;
 
-    //생성중인 맵의 위험도 저장하는 변수
-    int Danger = 1;
+    
 
     //만들어진 지형 카운트
     int create_cnt = 0;

@@ -10,7 +10,7 @@ public class SetMapArr : MonoBehaviour
     // 육각형 타일 오브젝트
     public GameObject MapObj;
 
-     public GameObject CenterObj;
+    public GameObject CenterObj;
 
      GameObject D1, D2, D3, D4, D5;
 
@@ -25,8 +25,8 @@ public class SetMapArr : MonoBehaviour
     int CreateNum;
 
     // 맵의 최대 범위 값이 클수록 맵이 길게 늘려질 확률이 Up
-    public int MaxRow = 250; // 세로
-    public int MaxCol = 250; // 가로
+    public int MaxRow = 300; // 세로
+    public int MaxCol = 300; // 가로
 
     // 위험도 5 타일 카운터를 위한 변수
     int Tile_D_5 = 0;
@@ -233,9 +233,9 @@ public class SetMapArr : MonoBehaviour
     public void SetDanger()
     {
 
-        for(int i =5 ;i<MaxCol;i++)
+        for(int i = 5 ;i<MaxCol;i++)
         {
-            for(int j =2;j<MaxRow;j++)
+            for(int j = 2;j<MaxRow;j++)
             {
                 // 위험도 1단계 = 3~14 번 ( 12 묶음 )
                 if (arr[i, j] >= 3 && arr[i, j] <= 14)
