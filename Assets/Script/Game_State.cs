@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//20.11.01 게임상태 2일때 몬스터가 스폰되도록 수정
+
 public class Game_State : MonoBehaviour
 {
     // 게임 상태를 받는 변수 
@@ -16,6 +18,10 @@ public class Game_State : MonoBehaviour
     public bool MapCreateStart = false;
     float time;
 
+    //현수자리
+    public MonsterManager MM;
+    //현수자리
+
     void Awake()
     {
         
@@ -23,21 +29,27 @@ public class Game_State : MonoBehaviour
     
     void Update()
     {
+
         if (G_state == 0)
         {
             G_state = 1;
         }
         else if (G_state == 1)
         {
-            MapCreateStart = true;
+            MapCreateStart = true;            
         }
         else if (G_state == 2)
         {
-
+            //현수자리
+            MM.Spawn_Monster();    //몬스터 스폰
+            //현수자리
         }
         else if (G_state == 3)
         {
-
+            //현수자리
+            Debug.Log("서칭매니저 ㄱ");
+            MM.Searching_Manager();
+            //현수자리
         }
         else if (G_state == 4)
         {
@@ -47,6 +59,7 @@ public class Game_State : MonoBehaviour
         {
             
         }
-        
+       
+
     }
 }

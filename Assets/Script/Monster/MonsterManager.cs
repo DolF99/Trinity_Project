@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
+    GameObject Player;
     SetMapArr Map;
     Game_State GM;
-    //public GameObject Monster_Model;
-    public Monster[] Mon;    
-    public Vector3[] MonPosArr;
+    public Monster[] Mon;
     public int MaxMonster;
-    public int PosCnt = 0;
+    public int MonCnt = 0;
+    public Object Monster_obj;
 
     int D1_Monster_max = 1;
     int D2_Monster_max = 1;
@@ -24,119 +24,102 @@ public class MonsterManager : MonoBehaviour
     int D4_Monster_cnt = 0;
     int D5_Monster_cnt = 0;
 
-    bool cnt = true;
-
     void Awake()
     {
-        GM = GameObject.Find("Game_Manager").GetComponent<Game_State>();
         MaxMonster = D1_Monster_max + D2_Monster_max + D3_Monster_max + D4_Monster_max + D5_Monster_max;
-        Mon = new Monster[MaxMonster];
+
+        GM = GameObject.Find("Game_Manager").GetComponent<Game_State>();
+        
         Map = GameObject.Find("MapCreator").GetComponent<SetMapArr>();
+
+        Mon = new Monster[MaxMonster];
         for (int i = 0; i < MaxMonster; i++)
-        {
-            Mon[i] = GameObject.Find("Monster_Manager").GetComponent<Monster>();
-        }
-
-        MonPosArr = new Vector3[MaxMonster];
+            Mon[i] = new Monster();
     }
 
-    public void Update()
+    public void Set_Monster()
     {
-        if (GM.G_state == 3)
-        {
-            if (cnt)
-            {
-                Debug.Log("Update");
-
-                Set_Monster();
-                Spawn_Monster();
-                cnt = false;
-            }
-        }
-    }
-    void Set_Monster()
-    {
-        Debug.Log("Set_Monster");
         for (int i = 5; i < Map.MaxCol; i++)
-        {
             for (int j = 2; j < Map.MaxRow; j++)
-            {
-                if (PosCnt != MaxMonster)
+                if (MonCnt != MaxMonster)
                 {
-                    if (Map.DangerArr[j, i] == 1)
-                    {
-                        if (D1_Monster_cnt == D1_Monster_max)
-                            break;
-                        Debug.Log("1");
-                        //MonsterArr[i, j] = 1;
-                        D1_Monster_cnt++;
-                        MonPosArr[PosCnt].x = i;
-                        MonPosArr[PosCnt].z = j;
-                        PosCnt++;
-                    }
-                    else if(Map.DangerArr[j, i] == 2)
-                    {
-                        if (D2_Monster_cnt == D2_Monster_max)
-                            break;
-                        Debug.Log("2");
-                        // MonsterArr[i, j] = 1;
-                        D2_Monster_cnt++;
-                        MonPosArr[PosCnt].x = i;
-                        MonPosArr[PosCnt].z = j;
-                        PosCnt++;
-                    }
-                    else if (Map.DangerArr[j, i] == 3)
-                    {
-                        if (D3_Monster_cnt == D3_Monster_max)
-                            break;
-                        Debug.Log("3");
-                        // MonsterArr[i, j] = 1;
-                        D3_Monster_cnt++;
-                        MonPosArr[PosCnt].x = i;
-                        MonPosArr[PosCnt].z = j;
-                        PosCnt++;
-                    }
-                    else if (Map.DangerArr[j, i] == 4)
-                    {
-                        if (D4_Monster_cnt == D4_Monster_max)
-                            break;
-                        Debug.Log("4");
-                        // MonsterArr[i, j] = 1;
-                        D4_Monster_cnt++;
-                        MonPosArr[PosCnt].x = i;
-                        MonPosArr[PosCnt].z = j;
-                        PosCnt++;
-                    }
-                    else if (Map.DangerArr[j, i] == 5)
-                    {
-                        if (D5_Monster_cnt == D5_Monster_max)
-                            break;
-                        Debug.Log("5");
-                        // MonsterArr[i, j] = 1;
-                        D5_Monster_cnt++;
-                        MonPosArr[PosCnt].x = i;
-                        MonPosArr[PosCnt].z = j;
-                        PosCnt++;
-                    }
+                    int rand = Random.Range(0, 99);
+
+                    if (rand < 10)
+                        switch (Map.DangerArr[j, i])
+                        {
+                            case 1:
+                                if (D1_Monster_cnt == D1_Monster_max)
+                                    break;
+                                D1_Monster_cnt++;
+                                Mon[MonCnt++].Pos = new Vector3(i, 10, j);
+                                break;
+
+                            case 2:
+                                if (D2_Monster_cnt == D2_Monster_max)
+                                    break;
+                                D2_Monster_cnt++;
+                                Mon[MonCnt++].Pos = new Vector3(i, 10, j);
+                                break;
+
+                            case 3:
+                                if (D3_Monster_cnt == D3_Monster_max)
+                                    break;
+                                D3_Monster_cnt++;
+                                Mon[MonCnt++].Pos = new Vector3(i, 10, j);
+                                break;
+
+                            case 4:
+                                if (D4_Monster_cnt == D4_Monster_max)
+                                    break;
+                                D4_Monster_cnt++;
+                                Mon[MonCnt++].Pos = new Vector3(i, 10, j);
+                                break;
+
+                            case 5:
+                                if (D5_Monster_cnt == D5_Monster_max)
+                                    break;
+                                D5_Monster_cnt++;
+                                Mon[MonCnt++].Pos = new Vector3(i, 10, j);
+                                break;
+                        }
                 }
+    }
+
+    public void Spawn_Monster()
+    {
+        Set_Monster();
+        for (int i = 0; i < MaxMonster; i++)
+        {
+            if (Mon[i].Pos.z % 2 == 0)
+            {
+                Instantiate(Monster_obj, new Vector3(Mon[i].Pos.x * 41, Mon[i].Pos.y, Mon[i].Pos.z * -35), Quaternion.identity);
+                Mon[i].Pos2 = new Vector3(Mon[i].Pos.x * 41, Mon[i].Pos.y, Mon[i].Pos.z * -35);
             }
+            else if (Mon[i].Pos.z % 2 == 1)
+            {
+                Instantiate(Monster_obj, new Vector3((Mon[i].Pos.x * 41) - 20, Mon[i].Pos.y, Mon[i].Pos.z * -35), Quaternion.identity);
+                Mon[i].Pos2 = new Vector3((Mon[i].Pos.x * 41) - 20, Mon[i].Pos.y, Mon[i].Pos.z * -35);
+            }
+            
         }
     }
 
-    void Spawn_Monster()
+    public void Attack_Monster()
     {
-        //Set_Monster();
-        for (int i = 0; i < MaxMonster; i++)
-        {
-            if (MonPosArr[i].z % 2 == 0)
-                MonPosArr[i].x = MonPosArr[i].x * 41;
-            else if(MonPosArr[i].z % 2 == 1)
-                MonPosArr[i].x = (MonPosArr[i].x * 41) - 20;
+        //for(int i = 0; i < MaxMonster; i++)
+        //if(Mon[i].Player_Search)
+        //{
+        //        //기습ㄱ
+        //}
+    }
 
-            MonPosArr[i].y = 10;
-            MonPosArr[i].z = MonPosArr[i].z * -35;
-            Instantiate(Mon[i].Monster_obj, MonPosArr[i], Quaternion.identity);
-        }
+    public void Searching_Manager()
+    {
+        if (Player != GameObject.Find("Player(Clone)"))
+            Player = GameObject.Find("Player(Clone)");
+        for (int i = 0; i < MaxMonster; i++)
+            Mon[i].Searching(Player.transform.position, Mon[i].Pos2);
     }
 }
 
